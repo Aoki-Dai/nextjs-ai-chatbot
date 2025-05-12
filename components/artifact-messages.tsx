@@ -29,6 +29,7 @@ function PureArtifactMessages({
   reload,
   isReadonly,
   append,
+  artifactStatus,
 }: ArtifactMessagesProps) {
   const {
     containerRef: messagesContainerRef,

@@ -259,7 +259,7 @@ function PureArtifact({
       {artifact.isVisible && (
         <motion.div
           data-testid="artifact"
-          className="flex flex-row h-dvh w-dvw fixed top-0 left-0 z-50 bg-transparent"
+          className="fixed top-0 left-0 z-50 flex flex-row bg-transparent h-dvh w-dvw"
           initial={{ opacity: 1 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { delay: 0.4 } }}
@@ -312,7 +312,7 @@ function PureArtifact({
                 )}
               </AnimatePresence>
 
-              <div className="flex flex-col h-full justify-between items-center">
+              <div className="flex flex-col items-center justify-between h-full">
                 <ArtifactMessages
                   chatId={chatId}
                   status={status}
@@ -322,9 +322,10 @@ function PureArtifact({
                   reload={reload}
                   isReadonly={isReadonly}
                   artifactStatus={artifact.status}
+                  append={append}
                 />
 
-                <form className="flex flex-row gap-2 relative items-end w-full px-4 pb-4">
+                <form className="relative flex flex-row items-end w-full gap-2 px-4 pb-4">
                   <MultimodalInput
                     chatId={chatId}
                     input={input}
@@ -346,7 +347,7 @@ function PureArtifact({
           )}
 
           <motion.div
-            className="fixed dark:bg-muted bg-background h-dvh flex flex-col overflow-y-scroll md:border-l dark:border-zinc-700 border-zinc-200"
+            className="fixed flex flex-col overflow-y-scroll dark:bg-muted bg-background h-dvh md:border-l dark:border-zinc-700 border-zinc-200"
             initial={
               isMobile
                 ? {
@@ -412,8 +413,8 @@ function PureArtifact({
               },
             }}
           >
-            <div className="p-2 flex flex-row justify-between items-start">
-              <div className="flex flex-row gap-4 items-start">
+            <div className="flex flex-row items-start justify-between p-2">
+              <div className="flex flex-row items-start gap-4">
                 <ArtifactCloseButton />
 
                 <div className="flex flex-col">
@@ -434,7 +435,7 @@ function PureArtifact({
                       )}`}
                     </div>
                   ) : (
-                    <div className="w-32 h-3 mt-2 bg-muted-foreground/20 rounded-md animate-pulse" />
+                    <div className="w-32 h-3 mt-2 rounded-md bg-muted-foreground/20 animate-pulse" />
                   )}
                 </div>
               </div>
