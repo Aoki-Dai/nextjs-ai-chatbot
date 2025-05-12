@@ -27,14 +27,14 @@ const visibilities: Array<{
 }> = [
   {
     id: 'private',
-    label: 'Private',
-    description: 'Only you can access this chat',
+    label: '非公開',
+    description: 'このチャットはあなたのみがアクセスできます',
     icon: <LockIcon />,
   },
   {
     id: 'public',
-    label: 'Public',
-    description: 'Anyone with the link can access this chat',
+    label: '公開',
+    description: 'リンクを知っている人は誰でもこのチャットにアクセスできます',
     icon: <GlobeIcon />,
   },
 ];
@@ -88,10 +88,10 @@ export function VisibilitySelector({
               setVisibilityType(visibility.id);
               setOpen(false);
             }}
-            className="gap-4 group/item flex flex-row justify-between items-center"
+            className="flex flex-row items-center justify-between gap-4 group/item"
             data-active={visibility.id === visibilityType}
           >
-            <div className="flex flex-col gap-1 items-start">
+            <div className="flex flex-col items-start gap-1">
               {visibility.label}
               {visibility.description && (
                 <div className="text-xs text-muted-foreground">
