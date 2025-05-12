@@ -19,6 +19,7 @@ import { MessageEditor } from './message-editor';
 import { DocumentPreview } from './document-preview';
 import { MessageReasoning } from './message-reasoning';
 import type { UseChatHelpers } from '@ai-sdk/react';
+import { SuggestButtons } from './suggest-buttons';
 
 const PurePreviewMessage = ({
   chatId,
@@ -29,6 +30,7 @@ const PurePreviewMessage = ({
   reload,
   isReadonly,
   requiresScrollPadding,
+  append,
 }: {
   chatId: string;
   message: UIMessage;
@@ -38,14 +40,31 @@ const PurePreviewMessage = ({
   reload: UseChatHelpers['reload'];
   isReadonly: boolean;
   requiresScrollPadding: boolean;
+  append: UseChatHelpers['append'];
 }) => {
   const [mode, setMode] = useState<'view' | 'edit'>('view');
+
+  const showSuggestions = message.role === 'assistant' && !isLoading && !isReadonly;
+
+  const suggestions = [
+    'もっと詳しく教えてください',
+    '具体的な例を挙げてください',
+    '他の方法はありますか？',
+    'これについて詳しく説明してください'
+  ];
+
+  const handleSuggestionClick = (suggestion: string) => {
+    append({
+      role: 'user',
+      content: suggestion,
+    });
+  };
 
   return (
     <AnimatePresence>
       <motion.div
         data-testid={`message-${message.role}`}
-        className="w-full mx-auto max-w-3xl px-4 group/message"
+        className="w-full max-w-3xl px-4 mx-auto group/message"
         initial={{ y: 5, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         data-role={message.role}
@@ -60,7 +79,7 @@ const PurePreviewMessage = ({
           )}
         >
           {message.role === 'assistant' && (
-            <div className="size-8 flex items-center rounded-full justify-center ring-1 shrink-0 ring-border bg-background">
+            <div className="flex items-center justify-center rounded-full size-8 ring-1 shrink-0 ring-border bg-background">
               <div className="translate-y-px">
                 <SparklesIcon size={14} />
               </div>
@@ -104,14 +123,14 @@ const PurePreviewMessage = ({
               if (type === 'text') {
                 if (mode === 'view') {
                   return (
-                    <div key={key} className="flex flex-row gap-2 items-start">
+                    <div key={key} className="flex flex-row items-start gap-2">
                       {message.role === 'user' && !isReadonly && (
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <Button
                               data-testid="message-edit-button"
                               variant="ghost"
-                              className="px-2 h-fit rounded-full text-muted-foreground opacity-0 group-hover/message:opacity-100"
+                              className="px-2 rounded-full opacity-0 h-fit text-muted-foreground group-hover/message:opacity-100"
                               onClick={() => {
                                 setMode('edit');
                               }}
@@ -138,7 +157,7 @@ const PurePreviewMessage = ({
 
                 if (mode === 'edit') {
                   return (
-                    <div key={key} className="flex flex-row gap-2 items-start">
+                    <div key={key} className="flex flex-row items-start gap-2">
                       <div className="size-8" />
 
                       <MessageEditor
@@ -221,6 +240,13 @@ const PurePreviewMessage = ({
               }
             })}
 
+            {showSuggestions && (
+              <SuggestButtons
+                suggestions={suggestions}
+                onSuggestionClick={handleSuggestionClick}
+              />
+            )}
+
             {!isReadonly && (
               <MessageActions
                 key={`action-${message.id}`}
@@ -257,7 +283,7 @@ export const ThinkingMessage = () => {
   return (
     <motion.div
       data-testid="message-assistant-loading"
-      className="w-full mx-auto max-w-3xl px-4 group/message min-h-96"
+      className="w-full max-w-3xl px-4 mx-auto group/message min-h-96"
       initial={{ y: 5, opacity: 0 }}
       animate={{ y: 0, opacity: 1, transition: { delay: 1 } }}
       data-role={role}
@@ -270,11 +296,11 @@ export const ThinkingMessage = () => {
           },
         )}
       >
-        <div className="size-8 flex items-center rounded-full justify-center ring-1 shrink-0 ring-border">
+        <div className="flex items-center justify-center rounded-full size-8 ring-1 shrink-0 ring-border">
           <SparklesIcon size={14} />
         </div>
 
-        <div className="flex flex-col gap-2 w-full">
+        <div className="flex flex-col w-full gap-2">
           <div className="flex flex-col gap-4 text-muted-foreground">
             Hmm...
           </div>

@@ -17,6 +17,7 @@ interface MessagesProps {
   reload: UseChatHelpers['reload'];
   isReadonly: boolean;
   isArtifactVisible: boolean;
+  append: UseChatHelpers['append'];
 }
 
 function PureMessages({
@@ -27,6 +28,7 @@ function PureMessages({
   setMessages,
   reload,
   isReadonly,
+  append,
 }: MessagesProps) {
   const {
     containerRef: messagesContainerRef,
@@ -42,7 +44,7 @@ function PureMessages({
   return (
     <div
       ref={messagesContainerRef}
-      className="flex flex-col min-w-0 gap-6 flex-1 overflow-y-scroll pt-4 relative"
+      className="relative flex flex-col flex-1 min-w-0 gap-6 pt-4 overflow-y-scroll"
     >
       {messages.length === 0 && <Greeting />}
 
@@ -63,6 +65,7 @@ function PureMessages({
           requiresScrollPadding={
             hasSentMessage && index === messages.length - 1
           }
+          append={append}
         />
       ))}
 
