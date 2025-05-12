@@ -19,24 +19,34 @@ function PureSuggestedActions({
 }: SuggestedActionsProps) {
   const suggestedActions = [
     {
-      title: '今日のランチは',
-      label: '何を食べるべきですか？',
-      action: '今日のランチは何を食べるべきですか？予算は1000円以内で、健康的な選択肢を教えてください。',
+      title: '今日の天気は？',
+      label: '今日の天気予報を確認しましょう',
+      action: '今日の天気予報を教えてください。',
     },
     {
-      title: '週末の過ごし方',
-      label: 'を提案してください',
-      action: '週末の過ごし方を提案してください。天気が良く、予算は5000円以内で、リフレッシュできるようなプランを教えてください。',
+      title: '今日の食事は？',
+      label: 'おすすめのレシピを提案します',
+      action: '今日の夕食のレシピを提案してください。',
     },
     {
-      title: '効率的な家事の',
-      label: '進め方を教えてください',
-      action: '効率的な家事の進め方を教えてください。週末の2時間でできる、部屋の片付けと掃除の手順を提案してください。',
+      title: '運動メニュー',
+      label: '自宅でできる運動を提案します',
+      action: '自宅でできる簡単な運動メニューを教えてください。',
     },
     {
-      title: '今日の運動メニュー',
-      label: 'を提案してください',
-      action: '今日の運動メニューを提案してください。家でできる30分程度の運動で、体力維持に効果的なものを教えてください。',
+      title: '読書のおすすめ',
+      label: 'あなたにぴったりの本を提案します',
+      action: '最近のおすすめの本を教えてください。',
+    },
+    {
+      title: '今日の予定',
+      label: '効率的なスケジュールを提案します',
+      action: '今日の予定を効率的に組むためのアドバイスをください。',
+    },
+    {
+      title: 'リラックス方法',
+      label: 'ストレス解消法を提案します',
+      action: '簡単にできるリラックス方法を教えてください。',
     },
   ];
 
@@ -52,7 +62,7 @@ function PureSuggestedActions({
           exit={{ opacity: 0, y: 20 }}
           transition={{ delay: 0.05 * index }}
           key={`suggested-action-${suggestedAction.title}-${index}`}
-          className={index > 1 ? 'hidden sm:block' : 'block'}
+          className="block"
         >
           <Button
             variant="ghost"
