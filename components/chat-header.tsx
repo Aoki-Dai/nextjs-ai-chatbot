@@ -41,7 +41,7 @@ function PureChatHeader({
           <TooltipTrigger asChild>
             <Button
               variant="outline"
-              className="order-2 md:order-1 md:px-2 px-2 md:h-fit ml-auto md:ml-0"
+              className="order-2 px-2 ml-auto md:order-1 md:px-2 md:h-fit md:ml-0"
               onClick={() => {
                 router.push('/');
                 router.refresh();

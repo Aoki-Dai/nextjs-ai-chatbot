@@ -291,9 +291,9 @@ function PureMultimodalInput({
         }}
       />
 
-      <div className="absolute bottom-0 flex flex-row justify-start p-2 w-fit">
+      {/* <div className="absolute bottom-0 flex flex-row justify-start p-2 w-fit">
         <AttachmentsButton fileInputRef={fileInputRef} status={status} />
-      </div>
+      </div> */}
 
       <div className="absolute bottom-0 right-0 flex flex-row justify-end p-2 w-fit">
         {status === 'submitted' ? (
