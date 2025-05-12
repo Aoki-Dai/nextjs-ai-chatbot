@@ -38,9 +38,9 @@ export function SidebarUserNav({ user }: { user: User }) {
             {status === 'loading' ? (
               <SidebarMenuButton className="data-[state=open]:bg-sidebar-accent bg-background data-[state=open]:text-sidebar-accent-foreground h-10 justify-between">
                 <div className="flex flex-row gap-2">
-                  <div className="size-6 bg-zinc-500/30 rounded-full animate-pulse" />
-                  <span className="bg-zinc-500/30 text-transparent rounded-md animate-pulse">
-                    Loading auth status
+                  <div className="rounded-full size-6 bg-zinc-500/30 animate-pulse" />
+                  <span className="text-transparent rounded-md bg-zinc-500/30 animate-pulse">
+                    認証状態を読み込み中
                   </span>
                 </div>
                 <div className="animate-spin text-zinc-500">
@@ -76,7 +76,7 @@ export function SidebarUserNav({ user }: { user: User }) {
               className="cursor-pointer"
               onSelect={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             >
-              {`Toggle ${theme === 'light' ? 'dark' : 'light'} mode`}
+              {`${theme === 'light' ? 'ダーク' : 'ライト'}モードに切り替え`}
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild data-testid="user-nav-item-auth">
@@ -103,7 +103,7 @@ export function SidebarUserNav({ user }: { user: User }) {
                   }
                 }}
               >
-                {isGuest ? 'Login to your account' : 'Sign out'}
+                {isGuest ? 'アカウントにログイン' : 'サインアウト'}
               </button>
             </DropdownMenuItem>
           </DropdownMenuContent>
