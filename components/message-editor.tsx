@@ -44,7 +44,7 @@ export function MessageEditor({
   };
 
   return (
-    <div className="flex flex-col gap-2 w-full">
+    <div className="flex flex-col w-full gap-2">
       <Textarea
         data-testid="message-editor"
         ref={textareaRef}
@@ -53,20 +53,20 @@ export function MessageEditor({
         onChange={handleInput}
       />
 
-      <div className="flex flex-row gap-2 justify-end">
+      <div className="flex flex-row justify-end gap-2">
         <Button
           variant="outline"
-          className="h-fit py-2 px-3"
+          className="px-3 py-2 h-fit"
           onClick={() => {
             setMode('view');
           }}
         >
-          Cancel
+          キャンセル
         </Button>
         <Button
           data-testid="message-editor-send-button"
           variant="default"
-          className="h-fit py-2 px-3"
+          className="px-3 py-2 h-fit"
           disabled={isSubmitting}
           onClick={async () => {
             setIsSubmitting(true);
@@ -96,7 +96,7 @@ export function MessageEditor({
             reload();
           }}
         >
-          {isSubmitting ? 'Sending...' : 'Send'}
+          {isSubmitting ? '送信中...' : '送信'}
         </Button>
       </div>
     </div>
