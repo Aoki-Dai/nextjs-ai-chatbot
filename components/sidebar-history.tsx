@@ -330,14 +330,14 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
 
           {hasReachedEnd ? (
             <div className="flex flex-row items-center justify-center w-full gap-2 px-2 mt-8 text-sm text-zinc-500">
-              You have reached the end of your chat history.
+              チャット履歴の最後に到達しました。
             </div>
           ) : (
             <div className="flex flex-row items-center gap-2 p-2 mt-8 text-zinc-500 dark:text-zinc-400">
               <div className="animate-spin">
                 <LoaderIcon />
               </div>
-              <div>Loading Chats...</div>
+              <div>チャットを読み込み中...</div>
             </div>
           )}
         </SidebarGroupContent>
