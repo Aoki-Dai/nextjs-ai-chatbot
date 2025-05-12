@@ -238,31 +238,31 @@ export const codeArtifact = new Artifact<'code', Metadata>({
     },
     {
       icon: <CopyIcon size={18} />,
-      description: 'Copy code to clipboard',
+      description: 'コードをクリップボードにコピー',
       onClick: ({ content }) => {
         navigator.clipboard.writeText(content);
-        toast.success('Copied to clipboard!');
+        toast.success('クリップボードにコピーしました！');
       },
     },
   ],
   toolbar: [
     {
       icon: <MessageIcon />,
-      description: 'Add comments',
+      description: 'コメントを追加',
       onClick: ({ appendMessage }) => {
         appendMessage({
           role: 'user',
-          content: 'Add comments to the code snippet for understanding',
+          content: 'コードスニペットの理解のためにコメントを追加してください',
         });
       },
     },
     {
       icon: <LogsIcon />,
-      description: 'Add logs',
+      description: 'ログを追加',
       onClick: ({ appendMessage }) => {
         appendMessage({
           role: 'user',
-          content: 'Add logs to the code snippet for debugging',
+          content: 'デバッグのためにコードスニペットにログを追加してください',
         });
       },
     },
