@@ -20,6 +20,7 @@ import { DocumentPreview } from './document-preview';
 import { MessageReasoning } from './message-reasoning';
 import type { UseChatHelpers } from '@ai-sdk/react';
 import { SuggestButtons } from './suggest-buttons';
+import { generateSuggestions } from '@/lib/suggestions';
 
 const PurePreviewMessage = ({
   chatId,
@@ -45,13 +46,7 @@ const PurePreviewMessage = ({
   const [mode, setMode] = useState<'view' | 'edit'>('view');
 
   const showSuggestions = message.role === 'assistant' && !isLoading && !isReadonly;
-
-  const suggestions = [
-    'もっと詳しく教えてください',
-    '具体的な例を挙げてください',
-    '他の方法はありますか？',
-    'これについて詳しく説明してください'
-  ];
+  const suggestions = showSuggestions ? generateSuggestions(message) : [];
 
   const handleSuggestionClick = (suggestion: string) => {
     append({
