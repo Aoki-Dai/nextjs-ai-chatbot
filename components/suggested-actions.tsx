@@ -43,7 +43,7 @@ function PureSuggestedActions({
   return (
     <div
       data-testid="suggested-actions"
-      className="grid w-full gap-2 sm:grid-cols-2"
+      className="grid w-full max-w-3xl gap-4 mx-auto sm:grid-cols-2"
     >
       {suggestedActions.map((suggestedAction, index) => (
         <motion.div
@@ -52,7 +52,7 @@ function PureSuggestedActions({
           exit={{ opacity: 0, y: 20 }}
           transition={{ delay: 0.05 * index }}
           key={`suggested-action-${suggestedAction.title}-${index}`}
-          className={index > 1 ? 'hidden sm:block' : 'block'}
+          className="aspect-square"
         >
           <Button
             variant="ghost"
@@ -64,10 +64,10 @@ function PureSuggestedActions({
                 content: suggestedAction.action,
               });
             }}
-            className="text-left border rounded-xl px-4 py-3.5 text-sm flex-1 gap-1 sm:flex-col w-full h-auto justify-start items-start"
+            className="flex flex-col items-start justify-center w-full h-full gap-3 p-6 text-base text-left transition-colors border-2 rounded-2xl hover:bg-muted/50"
           >
-            <span className="font-medium">{suggestedAction.title}</span>
-            <span className="text-muted-foreground">
+            <span className="text-lg font-bold">{suggestedAction.title}</span>
+            <span className="text-sm text-muted-foreground">
               {suggestedAction.label}
             </span>
           </Button>
