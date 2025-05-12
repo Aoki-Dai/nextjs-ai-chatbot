@@ -57,7 +57,7 @@ const PureChatItem = ({
             showOnHover={!isActive}
           >
             <MoreHorizontalIcon />
-            <span className="sr-only">More</span>
+            <span className="sr-only">その他</span>
           </SidebarMenuAction>
         </DropdownMenuTrigger>
 
@@ -65,33 +65,33 @@ const PureChatItem = ({
           <DropdownMenuSub>
             <DropdownMenuSubTrigger className="cursor-pointer">
               <ShareIcon />
-              <span>Share</span>
+              <span>共有</span>
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
               <DropdownMenuSubContent>
                 <DropdownMenuItem
-                  className="cursor-pointer flex-row justify-between"
+                  className="flex-row justify-between cursor-pointer"
                   onClick={() => {
                     setVisibilityType('private');
                   }}
                 >
-                  <div className="flex flex-row gap-2 items-center">
+                  <div className="flex flex-row items-center gap-2">
                     <LockIcon size={12} />
-                    <span>Private</span>
+                    <span>非公開</span>
                   </div>
                   {visibilityType === 'private' ? (
                     <CheckCircleFillIcon />
                   ) : null}
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  className="cursor-pointer flex-row justify-between"
+                  className="flex-row justify-between cursor-pointer"
                   onClick={() => {
                     setVisibilityType('public');
                   }}
                 >
-                  <div className="flex flex-row gap-2 items-center">
+                  <div className="flex flex-row items-center gap-2">
                     <GlobeIcon />
-                    <span>Public</span>
+                    <span>公開</span>
                   </div>
                   {visibilityType === 'public' ? <CheckCircleFillIcon /> : null}
                 </DropdownMenuItem>
@@ -104,7 +104,7 @@ const PureChatItem = ({
             onSelect={() => onDelete(chat.id)}
           >
             <TrashIcon />
-            <span>Delete</span>
+            <span>削除</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
