@@ -17,6 +17,7 @@ interface ArtifactMessagesProps {
   reload: UseChatHelpers['reload'];
   isReadonly: boolean;
   artifactStatus: UIArtifact['status'];
+  append: UseChatHelpers['append'];
 }
 
 function PureArtifactMessages({
@@ -27,6 +28,7 @@ function PureArtifactMessages({
   setMessages,
   reload,
   isReadonly,
+  append,
 }: ArtifactMessagesProps) {
   const {
     containerRef: messagesContainerRef,
@@ -42,7 +44,7 @@ function PureArtifactMessages({
   return (
     <div
       ref={messagesContainerRef}
-      className="flex flex-col gap-4 h-full items-center overflow-y-scroll px-4 pt-20"
+      className="flex flex-col items-center h-full gap-4 px-4 pt-20 overflow-y-scroll"
     >
       {messages.map((message, index) => (
         <PreviewMessage
@@ -61,6 +63,7 @@ function PureArtifactMessages({
           requiresScrollPadding={
             hasSentMessage && index === messages.length - 1
           }
+          append={append}
         />
       ))}
 
