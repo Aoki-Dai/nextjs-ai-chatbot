@@ -32,6 +32,7 @@ const PurePreviewMessage = ({
   isReadonly,
   requiresScrollPadding,
   append,
+  messages,
 }: {
   chatId: string;
   message: UIMessage;
@@ -42,6 +43,7 @@ const PurePreviewMessage = ({
   isReadonly: boolean;
   requiresScrollPadding: boolean;
   append: UseChatHelpers['append'];
+  messages: Array<UIMessage>;
 }) => {
   const [mode, setMode] = useState<'view' | 'edit'>('view');
 
@@ -56,41 +58,128 @@ const PurePreviewMessage = ({
   };
 
   // メッセージの内容に基づいて絵文字を選択する関数
-  const getEmojiCharacter = (content: string) => {
-    if (content.includes('?') || content.includes('？')) {
-      return '🤔'; // 質問の場合
+  const getEmojiCharacter = (content: string, role: string) => {
+    // ユーザーのメッセージの場合、次のアシスタントのメッセージで使用する絵文字を決定
+    if (role === 'user') {
+      if (content.includes('?') || content.includes('？')) {
+        return '🤔'; // 質問に対して共感
+      }
+      if (content.includes('!') || content.includes('！')) {
+        return '😊'; // 感嘆に対して共感
+      }
+      if (content.includes('すみません') || content.includes('申し訳')) {
+        return '🙇‍♂️'; // 謝罪に対して共感
+      }
+      if (content.includes('ありがとう') || content.includes('感謝')) {
+        return '🙏'; // 感謝に対して共感
+      }
+      if (content.includes('笑') || content.includes('楽しい') || content.includes('面白い')) {
+        return '😄'; // 喜びに共感
+      }
+      if (content.includes('悲しい') || content.includes('残念')) {
+        return '😢'; // 悲しみに共感
+      }
+      if (content.includes('怒') || content.includes('不満')) {
+        return '😠'; // 怒りに共感
+      }
+      if (content.includes('驚') || content.includes('びっくり')) {
+        return '😲'; // 驚きに共感
+      }
+      if (content.includes('頑張') || content.includes('応援')) {
+        return '💪'; // 応援に共感
+      }
+      if (content.includes('考え') || content.includes('検討')) {
+        return '💭'; // 思考に共感
+      }
+      if (content.includes('成功') || content.includes('できた')) {
+        return '🎉'; // 成功を祝福
+      }
+      if (content.includes('疲') || content.includes('大変')) {
+        return '😌'; // 疲れに共感
+      }
+      if (content.includes('心配') || content.includes('不安')) {
+        return '🤗'; // 心配に寄り添う
+      }
+      if (content.includes('嬉') || content.includes('幸せ')) {
+        return '🥰'; // 幸せを共有
+      }
+      if (content.includes('眠') || content.includes('寝')) {
+        return '😴'; // 眠気に共感
+      }
+      return '😊'; // デフォルトを親しみやすい笑顔に変更
     }
-    if (content.includes('!') || content.includes('！')) {
-      return '😊'; // 感嘆の場合
+    
+    // アシスタントのメッセージの場合
+    if (role === 'assistant') {
+      if (content.includes('申し訳ありません') || content.includes('すみません')) {
+        return '🙇‍♂️'; // 謝罪
+      }
+      if (content.includes('お役に立てて嬉しい') || content.includes('喜んで')) {
+        return '🥰'; // 喜び
+      }
+      if (content.includes('残念') || content.includes('申し訳')) {
+        return '😔'; // 残念
+      }
+      if (content.includes('素晴らしい') || content.includes('素敵')) {
+        return '✨'; // 称賛
+      }
+      if (content.includes('注意') || content.includes('気をつけて')) {
+        return '⚠️'; // 注意
+      }
+      if (content.includes('おめでとう') || content.includes('祝福')) {
+        return '🎊'; // 祝福
+      }
+      if (content.includes('頑張りましょう') || content.includes('一緒に')) {
+        return '💪'; // 励まし
+      }
+      if (content.includes('考えましょう') || content.includes('検討')) {
+        return '💭'; // 思考
+      }
+      if (content.includes('確かに') || content.includes('その通り')) {
+        return '👍'; // 同意
+      }
+      if (content.includes('なるほど') || content.includes('理解')) {
+        return '🤔'; // 理解
+      }
+      if (content.includes('驚き') || content.includes('びっくり')) {
+        return '😲'; // 驚き
+      }
+      if (content.includes('心配') || content.includes('不安')) {
+        return '🤗'; // 心配
+      }
+      if (content.includes('疲れ') || content.includes('大変')) {
+        return '😌'; // 共感
+      }
+      return '😊'; // デフォルトを親しみやすい笑顔に変更
     }
-    if (content.includes('すみません') || content.includes('申し訳')) {
-      return '🙇‍♂️'; // 謝罪の場合
+    
+    return '😊'; // その他の場合も親しみやすい笑顔に変更
+  };
+
+  // 前のユーザーメッセージを取得する関数
+  const getPreviousUserMessage = (messages: UIMessage[] | undefined, currentMessage: UIMessage) => {
+    if (!messages) return '';
+    
+    const currentIndex = messages.findIndex(m => m.id === currentMessage.id);
+    if (currentIndex === -1) return '';
+
+    for (let i = currentIndex - 1; i >= 0; i--) {
+      if (messages[i].role === 'user') {
+        return messages[i].content;
+      }
     }
-    if (content.includes('ありがとう') || content.includes('感謝')) {
-      return '🙏'; // 感謝の場合
+    return '';
+  };
+
+  // アシスタントのメッセージ内容を取得する関数
+  const getAssistantMessageContent = (message: UIMessage) => {
+    if (message.parts) {
+      const textPart = message.parts.find(part => part.type === 'text');
+      if (textPart && 'text' in textPart) {
+        return textPart.text;
+      }
     }
-    if (content.includes('笑') || content.includes('楽しい') || content.includes('面白い')) {
-      return '😄'; // 笑顔の場合
-    }
-    if (content.includes('悲しい') || content.includes('残念')) {
-      return '😢'; // 悲しい場合
-    }
-    if (content.includes('怒') || content.includes('不満')) {
-      return '😠'; // 怒りの場合
-    }
-    if (content.includes('驚') || content.includes('びっくり')) {
-      return '😲'; // 驚きの場合
-    }
-    if (content.includes('頑張') || content.includes('応援')) {
-      return '💪'; // 応援の場合
-    }
-    if (content.includes('考え') || content.includes('検討')) {
-      return '💭'; // 思考の場合
-    }
-    if (content.includes('成功') || content.includes('できた')) {
-      return '🎉'; // 成功の場合
-    }
-    return '🤖'; // デフォルト
+    return '';
   };
 
   return (
@@ -145,7 +234,12 @@ const PurePreviewMessage = ({
                   repeatType: "reverse"
                 }}
               >
-                {getEmojiCharacter(message.content)}
+                {getEmojiCharacter(
+                  message.role === 'assistant' 
+                    ? getAssistantMessageContent(message)
+                    : getPreviousUserMessage(messages, message),
+                  message.role
+                )}
               </motion.div>
             </motion.div>
           )}
