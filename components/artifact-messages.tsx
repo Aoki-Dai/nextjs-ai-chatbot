@@ -65,6 +65,7 @@ function PureArtifactMessages({
             hasSentMessage && index === messages.length - 1
           }
           append={append}
+          messages={messages}
         />
       ))}
 
