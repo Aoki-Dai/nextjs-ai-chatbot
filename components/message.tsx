@@ -55,6 +55,23 @@ const PurePreviewMessage = ({
     });
   };
 
+  // メッセージの内容に基づいて絵文字を選択する関数
+  const getEmojiCharacter = (content: string) => {
+    if (content.includes('?') || content.includes('？')) {
+      return '🤔'; // 質問の場合
+    }
+    if (content.includes('!') || content.includes('！')) {
+      return '😊'; // 感嘆の場合
+    }
+    if (content.includes('すみません') || content.includes('申し訳')) {
+      return '🙇‍♂️'; // 謝罪の場合
+    }
+    if (content.includes('ありがとう') || content.includes('感謝')) {
+      return '🙏'; // 感謝の場合
+    }
+    return '🤖'; // デフォルト
+  };
+
   return (
     <AnimatePresence>
       <motion.div
@@ -75,8 +92,8 @@ const PurePreviewMessage = ({
         >
           {message.role === 'assistant' && (
             <div className="flex items-center justify-center rounded-full size-8 ring-1 shrink-0 ring-border bg-background">
-              <div className="translate-y-px">
-                <SparklesIcon size={14} />
+              <div className="translate-y-px text-xl">
+                {getEmojiCharacter(message.content)}
               </div>
             </div>
           )}
