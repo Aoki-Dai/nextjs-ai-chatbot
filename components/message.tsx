@@ -69,6 +69,27 @@ const PurePreviewMessage = ({
     if (content.includes('ありがとう') || content.includes('感謝')) {
       return '🙏'; // 感謝の場合
     }
+    if (content.includes('笑') || content.includes('楽しい') || content.includes('面白い')) {
+      return '😄'; // 笑顔の場合
+    }
+    if (content.includes('悲しい') || content.includes('残念')) {
+      return '😢'; // 悲しい場合
+    }
+    if (content.includes('怒') || content.includes('不満')) {
+      return '😠'; // 怒りの場合
+    }
+    if (content.includes('驚') || content.includes('びっくり')) {
+      return '😲'; // 驚きの場合
+    }
+    if (content.includes('頑張') || content.includes('応援')) {
+      return '💪'; // 応援の場合
+    }
+    if (content.includes('考え') || content.includes('検討')) {
+      return '💭'; // 思考の場合
+    }
+    if (content.includes('成功') || content.includes('できた')) {
+      return '🎉'; // 成功の場合
+    }
     return '🤖'; // デフォルト
   };
 
@@ -91,11 +112,42 @@ const PurePreviewMessage = ({
           )}
         >
           {message.role === 'assistant' && (
-            <div className="flex items-center justify-center rounded-full size-8 ring-1 shrink-0 ring-border bg-background">
-              <div className="translate-y-px text-xl">
+            <motion.div 
+              className="flex items-center justify-center rounded-full size-10 ring-1 shrink-0 ring-border bg-background"
+              initial={{ scale: 0.8, rotate: -10 }}
+              animate={{ 
+                scale: 1, 
+                rotate: 0,
+                transition: {
+                  type: "spring",
+                  stiffness: 260,
+                  damping: 20
+                }
+              }}
+              whileHover={{ 
+                scale: 1.1,
+                rotate: 5,
+                transition: {
+                  type: "spring",
+                  stiffness: 400,
+                  damping: 10
+                }
+              }}
+            >
+              <motion.div 
+                className="translate-y-px text-2xl"
+                animate={{ 
+                  y: [0, -2, 0],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  repeatType: "reverse"
+                }}
+              >
                 {getEmojiCharacter(message.content)}
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           )}
 
           <div
