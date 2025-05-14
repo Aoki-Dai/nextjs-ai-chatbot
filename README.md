@@ -1,5 +1,59 @@
-# Choice Buddy（チョイス・バディ）
+# ChoiceBuddy
+
 あなたの選択をAIが楽しくサポート
+
+## 技術スタック
+
+- Next.js
+- TypeScript
+- Vercel AI SDK
+- shadcn/ui
+- Tailwind CSS
+- Neon Serverless Postgres
+- Auth.js
+
+## 開発環境のセットアップ
+
+1. リポジトリのクローン
+
+2. 依存関係のインストール
+
+```bash
+pnpm install
+```
+
+3. 開発サーバーの起動
+
+```bash
+pnpm dev
+```
+
+## プロジェクト構造
+
+```
+.
+├── app/                    # Next.jsのメインアプリケーションディレクトリ
+│   ├── api/               # APIルート
+│   ├── chat/              # チャット機能のルート
+│   └── layout.tsx         # アプリケーションのレイアウト
+├── components/            # 再利用可能なUIコンポーネント
+│   ├── chat/             # チャット関連のコンポーネント
+│   └── ui/               # 共通UIコンポーネント
+├── lib/                   # ユーティリティ関数とヘルパー
+│   ├── actions/          # サーバーアクション
+│   ├── constants/        # 定数定義
+│   └── utils/            # ユーティリティ関数
+├── hooks/                 # カスタムReactフック
+├── public/               # 静的ファイル
+├── tests/                # テストファイル
+├── .vscode/              # VSCode設定
+├── artifacts/            # ビルド成果物
+└── 設定ファイル
+    ├── next.config.ts    # Next.js設定
+    ├── tailwind.config.ts # Tailwind CSS設定
+    ├── tsconfig.json     # TypeScript設定
+    └── biome.jsonc       # Biome（コードフォーマッター）設定
+```
 
 ---
 
