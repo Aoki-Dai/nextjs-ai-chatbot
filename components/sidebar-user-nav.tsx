@@ -22,6 +22,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from './toast';
 import { LoaderIcon } from './icons';
 import { guestRegex } from '@/lib/constants';
+import { ProfileButton } from './profile/profile-button';
 
 export function SidebarUserNav({ user }: { user: User }) {
   const router = useRouter();
@@ -71,6 +72,15 @@ export function SidebarUserNav({ user }: { user: User }) {
             side="top"
             className="w-[--radix-popper-anchor-width]"
           >
+            {!isGuest && (
+              <DropdownMenuItem
+                data-testid="user-nav-item-profile"
+                className="cursor-pointer"
+                onSelect={() => router.push('/profile')}
+              >
+                プロフィールを表示
+              </DropdownMenuItem>
+            )}
             <DropdownMenuItem
               data-testid="user-nav-item-theme"
               className="cursor-pointer"
