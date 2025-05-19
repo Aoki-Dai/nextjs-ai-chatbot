@@ -1,10 +1,10 @@
-import { Metadata } from "next"
-import { ProfileForm } from "@/components/profile/profile-form"
+import { Metadata } from 'next';
+import { ProfileForm } from '@/components/profile/profile-form';
 
 export const metadata: Metadata = {
-  title: "プロフィール",
-  description: "ユーザープロフィールの管理",
-}
+  title: 'ChoiceBuddy',
+  description: 'ユーザープロフィールの管理',
+};
 
 export default function ProfilePage() {
   return (
@@ -14,5 +14,5 @@ export default function ProfilePage() {
         <ProfileForm />
       </div>
     </div>
-  )
-} 
+  );
+}
