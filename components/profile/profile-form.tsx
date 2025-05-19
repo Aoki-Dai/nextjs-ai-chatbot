@@ -1,9 +1,9 @@
-"use client"
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import * as z from "zod"
-import { Button } from "@/components/ui/button"
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -12,46 +12,55 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 
 const profileFormSchema = z.object({
   username: z
     .string()
     .min(2, {
-      message: "ユーザー名は2文字以上で入力してください。",
+      message: 'ユーザー名は2文字以上で入力してください。',
     })
     .max(30, {
-      message: "ユーザー名は30文字以内で入力してください。",
+      message: 'ユーザー名は30文字以内で入力してください。',
     }),
-  email: z
+  aiPreferences: z
     .string()
-    .min(1, { message: "メールアドレスは必須です。" })
-    .email("有効なメールアドレスを入力してください。"),
-  bio: z
-    .string()
-    .max(160, {
-      message: "自己紹介は160文字以内で入力してください。",
+    .max(200, {
+      message: 'AIに求める特徴は200文字以内で入力してください。',
     })
     .optional(),
-})
+  interests: z
+    .string()
+    .max(200, {
+      message: '趣味・興味は200文字以内で入力してください。',
+    })
+    .optional(),
+  occupation: z
+    .string()
+    .max(100, {
+      message: '職業・専門分野は100文字以内で入力してください。',
+    })
+    .optional(),
+});
 
-type ProfileFormValues = z.infer<typeof profileFormSchema>
+type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 export function ProfileForm() {
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues: {
-      username: "",
-      email: "",
-      bio: "",
+      username: '',
+      aiPreferences: '',
+      interests: '',
+      occupation: '',
     },
-  })
+  });
 
   function onSubmit(data: ProfileFormValues) {
     // TODO: プロフィール更新のロジックを実装
-    console.log(data)
+    console.log(data);
   }
 
   return (
@@ -75,15 +84,19 @@ export function ProfileForm() {
         />
         <FormField
           control={form.control}
-          name="email"
+          name="aiPreferences"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>メールアドレス</FormLabel>
+              <FormLabel>AIに求める特徴</FormLabel>
               <FormControl>
-                <Input placeholder="example@example.com" {...field} />
+                <Textarea
+                  placeholder="例：論理的な説明を好む、簡潔な回答を望む、専門的な用語を使用してほしい"
+                  className="resize-none"
+                  {...field}
+                />
               </FormControl>
               <FormDescription>
-                通知を受け取るメールアドレスを入力してください。
+                AIとの対話で重視する特徴や好みを入力してください。
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -91,19 +104,38 @@ export function ProfileForm() {
         />
         <FormField
           control={form.control}
-          name="bio"
+          name="interests"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>自己紹介</FormLabel>
+              <FormLabel>趣味・興味</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="自己紹介を入力してください"
+                  placeholder="例：プログラミング、読書、旅行、音楽"
                   className="resize-none"
                   {...field}
                 />
               </FormControl>
               <FormDescription>
-                あなたについて簡単に説明してください。
+                あなたの趣味や興味のある分野を入力してください。
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="occupation"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>職業・専門分野</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="例：ソフトウェアエンジニア、学生、デザイナー"
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                あなたの職業や専門分野を入力してください。
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -112,5 +144,5 @@ export function ProfileForm() {
         <Button type="submit">更新</Button>
       </form>
     </Form>
-  )
-} 
+  );
+}
