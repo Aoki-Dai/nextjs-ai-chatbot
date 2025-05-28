@@ -18,7 +18,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // 認証関連ページではゲストリダイレクトをスキップ
-  if (['/login', '/register'].includes(pathname)) {
+  if (authPaths.includes(pathname)) {
     return NextResponse.next();
   }
 
