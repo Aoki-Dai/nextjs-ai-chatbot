@@ -17,5 +17,11 @@ export async function GET(request: Request) {
     return NextResponse.redirect(new URL('/', request.url));
   }
 
+  // ログインまたは登録ページにリダイレクトされそうな場合は、ログインページへ
+  const url = new URL(redirectUrl);
+  if (url.pathname === '/login' || url.pathname === '/register') {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
+
   return signIn('guest', { redirect: true, redirectTo: redirectUrl });
 }
