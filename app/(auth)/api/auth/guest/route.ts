@@ -18,7 +18,13 @@ export async function GET(request: Request) {
   }
 
   // ログインまたは登録ページにリダイレクトされそうな場合は、ログインページへ
-  const url = new URL(redirectUrl);
+  let url;
+  try {
+    url = new URL(redirectUrl);
+  } catch (error) {
+    console.error('Invalid redirectUrl:', redirectUrl, error);
+    url = new URL('/', request.url); // Fallback to root URL
+  }
   if (url.pathname === '/login' || url.pathname === '/register') {
     return NextResponse.redirect(new URL('/login', request.url));
   }
