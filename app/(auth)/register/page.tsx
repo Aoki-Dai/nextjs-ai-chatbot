@@ -29,7 +29,11 @@ export default function Page() {
 
   useEffect(() => {
     // 同じ状態に対して複数回トーストを表示しないようにする
-    if (hasShownToast && state.status !== 'idle' && state.status !== 'in_progress') {
+    if (
+      hasShownToast &&
+      state.status !== 'idle' &&
+      state.status !== 'in_progress'
+    ) {
       return;
     }
 
