@@ -13,6 +13,8 @@ import {
 
 export const user = pgTable('User', {
   id: uuid('id').primaryKey().notNull().defaultRandom(),
+  email: varchar('email', { length: 100 }).unique().notNull(),
+  password: text('password'),
   username: varchar('username', { length: 30 }),
   aiPreferences: text('ai_preferences'),
   interests: text('interests'),
