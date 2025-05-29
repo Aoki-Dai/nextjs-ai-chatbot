@@ -7,6 +7,7 @@ import {
 } from 'ai';
 import { auth, type UserType } from '@/app/(auth)/auth';
 import { type RequestHints, systemPrompt } from '@/lib/ai/prompts';
+import { getUserProfile } from '@/lib/profile';
 import {
   createStreamId,
   deleteChatById,
@@ -132,6 +133,9 @@ export async function POST(request: Request) {
       country,
     };
 
+    // ユーザープロフィール情報を取得
+    const userProfile = await getUserProfile();
+
     await saveMessages({
       messages: [
         {
@@ -152,7 +156,11 @@ export async function POST(request: Request) {
       execute: (dataStream) => {
         const result = streamText({
           model: myProvider.languageModel(selectedChatModel),
-          system: systemPrompt({ selectedChatModel, requestHints }),
+          system: systemPrompt({
+            selectedChatModel,
+            requestHints,
+            userPreferences: userProfile?.aiPreferences,
+          }),
           messages,
           maxSteps: 5,
           experimental_activeTools:

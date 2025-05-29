@@ -53,16 +53,25 @@ About the origin of user's request:
 export const systemPrompt = ({
   selectedChatModel,
   requestHints,
+  userPreferences,
 }: {
   selectedChatModel: string;
   requestHints: RequestHints;
+  userPreferences?: string | null;
 }) => {
   const requestPrompt = getRequestPromptFromHints(requestHints);
 
+  let basePrompt = regularPrompt;
+
+  // ユーザーの設定がある場合は追加
+  if (userPreferences) {
+    basePrompt += `\n\nユーザーの求める特徴: ${userPreferences}\n上記の特徴を考慮して、ユーザーの好みに合った回答スタイルでお答えください。`;
+  }
+
   if (selectedChatModel === 'chat-model-reasoning') {
-    return `${regularPrompt}\n\n${requestPrompt}`;
+    return `${basePrompt}\n\n${requestPrompt}`;
   } else {
-    return `${regularPrompt}\n\n${requestPrompt}\n\n${artifactsPrompt}`;
+    return `${basePrompt}\n\n${requestPrompt}\n\n${artifactsPrompt}`;
   }
 };
 

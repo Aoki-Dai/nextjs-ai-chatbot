@@ -18,7 +18,7 @@ export function ProfileButton() {
       onClick={handleClick}
       className="hover:bg-accent hover:text-accent-foreground"
     >
-      <User className="h-5 w-5" />
+      <User className="size-5" />
       <span className="sr-only">プロフィールを表示</span>
     </Button>
   );

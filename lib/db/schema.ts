@@ -19,6 +19,10 @@ export const user = pgTable('User', {
   aiPreferences: text('ai_preferences'),
   interests: text('interests'),
   occupation: varchar('occupation', { length: 100 }),
+  currentMood: text('current_mood'),
+  communicationStyle: text('communication_style'),
+  goals: text('goals'),
+  updatedAt: timestamp('updated_at').defaultNow(),
 });
 
 export type User = InferSelectModel<typeof user>;
