@@ -47,7 +47,8 @@ const PurePreviewMessage = ({
 }) => {
   const [mode, setMode] = useState<'view' | 'edit'>('view');
 
-  const showSuggestions = message.role === 'assistant' && !isLoading && !isReadonly;
+  const showSuggestions =
+    message.role === 'assistant' && !isLoading && !isReadonly;
   const suggestions = showSuggestions ? generateSuggestions(message) : [];
 
   const handleSuggestionClick = (suggestion: string) => {
@@ -73,7 +74,11 @@ const PurePreviewMessage = ({
       if (content.includes('ありがとう') || content.includes('感謝')) {
         return '🙏'; // 感謝に対して共感
       }
-      if (content.includes('笑') || content.includes('楽しい') || content.includes('面白い')) {
+      if (
+        content.includes('笑') ||
+        content.includes('楽しい') ||
+        content.includes('面白い')
+      ) {
         return '😄'; // 喜びに共感
       }
       if (content.includes('悲しい') || content.includes('残念')) {
@@ -108,13 +113,19 @@ const PurePreviewMessage = ({
       }
       return '😊'; // デフォルトを親しみやすい笑顔に変更
     }
-    
+
     // アシスタントのメッセージの場合
     if (role === 'assistant') {
-      if (content.includes('申し訳ありません') || content.includes('すみません')) {
+      if (
+        content.includes('申し訳ありません') ||
+        content.includes('すみません')
+      ) {
         return '🙇‍♂️'; // 謝罪
       }
-      if (content.includes('お役に立てて嬉しい') || content.includes('喜んで')) {
+      if (
+        content.includes('お役に立てて嬉しい') ||
+        content.includes('喜んで')
+      ) {
         return '🥰'; // 喜び
       }
       if (content.includes('残念') || content.includes('申し訳')) {
@@ -152,15 +163,18 @@ const PurePreviewMessage = ({
       }
       return '😊'; // デフォルトを親しみやすい笑顔に変更
     }
-    
+
     return '😊'; // その他の場合も親しみやすい笑顔に変更
   };
 
   // 前のユーザーメッセージを取得する関数
-  const getPreviousUserMessage = (messages: UIMessage[] | undefined, currentMessage: UIMessage) => {
+  const getPreviousUserMessage = (
+    messages: UIMessage[] | undefined,
+    currentMessage: UIMessage,
+  ) => {
     if (!messages) return '';
-    
-    const currentIndex = messages.findIndex(m => m.id === currentMessage.id);
+
+    const currentIndex = messages.findIndex((m) => m.id === currentMessage.id);
     if (currentIndex === -1) return '';
 
     for (let i = currentIndex - 1; i >= 0; i--) {
@@ -174,7 +188,7 @@ const PurePreviewMessage = ({
   // アシスタントのメッセージ内容を取得する関数
   const getAssistantMessageContent = (message: UIMessage) => {
     if (message.parts) {
-      const textPart = message.parts.find(part => part.type === 'text');
+      const textPart = message.parts.find((part) => part.type === 'text');
       if (textPart && 'text' in textPart) {
         return textPart.text;
       }
@@ -201,44 +215,44 @@ const PurePreviewMessage = ({
           )}
         >
           {message.role === 'assistant' && (
-            <motion.div 
+            <motion.div
               className="flex items-center justify-center rounded-full size-10 ring-1 shrink-0 ring-border bg-background"
               initial={{ scale: 0.8, rotate: -10 }}
-              animate={{ 
-                scale: 1, 
+              animate={{
+                scale: 1,
                 rotate: 0,
                 transition: {
-                  type: "spring",
+                  type: 'spring',
                   stiffness: 260,
-                  damping: 20
-                }
+                  damping: 20,
+                },
               }}
-              whileHover={{ 
+              whileHover={{
                 scale: 1.1,
                 rotate: 5,
                 transition: {
-                  type: "spring",
+                  type: 'spring',
                   stiffness: 400,
-                  damping: 10
-                }
+                  damping: 10,
+                },
               }}
             >
-              <motion.div 
+              <motion.div
                 className="translate-y-px text-2xl"
-                animate={{ 
+                animate={{
                   y: [0, -2, 0],
                 }}
                 transition={{
                   duration: 2,
                   repeat: Infinity,
-                  repeatType: "reverse"
+                  repeatType: 'reverse',
                 }}
               >
                 {getEmojiCharacter(
-                  message.role === 'assistant' 
+                  message.role === 'assistant'
                     ? getAssistantMessageContent(message)
                     : getPreviousUserMessage(messages, message),
-                  message.role
+                  message.role,
                 )}
               </motion.div>
             </motion.div>
